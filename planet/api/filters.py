@@ -136,6 +136,8 @@ def geom_filter(geom, field_name=None):
     :param geojson geom: the geojson geom dict
     :param str field_name: optional field name, default is 'geometry'
     '''
+    if hasattr(geom, '__geo_interface__'):
+        geom = geom.__geo_interface__
     return _filter('GeometryFilter', config=geom,
                    field_name=field_name or 'geometry')
 
