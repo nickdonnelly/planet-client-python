@@ -1,4 +1,4 @@
-# Copyright 2015 Planet Labs, Inc.
+# Copyright 2015-2019 Planet Labs, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import logging
-import os
 import re
 import threading
 import time
@@ -27,8 +26,6 @@ from . exceptions import TooManyRequests
 from . __version__ import __version__
 from requests.compat import urlparse
 
-
-USE_STRICT_SSL = not (os.getenv('DISABLE_STRICT_SSL', '').lower() == 'true')
 
 log = logging.getLogger(__name__)
 
@@ -117,7 +114,7 @@ def _do_request(sess, req, **kwargs):
             t = time.time()
             resp = sess.request(
                 req.method, req.url, data=req.data, headers=_headers(req),
-                params=req.params, verify=USE_STRICT_SSL, **kwargs
+                params=req.params, **kwargs
             )
             # futures session returns futures so only check actual responses
             # for futures these will be checked in the wrapper model
@@ -165,4 +162,4 @@ class RequestsDispatcher(object):
             })
         req = Request(method, url, params=params, data=data, headers=headers)
         _log_request(req)
-        return self.session.send(req.prepare(), verify=USE_STRICT_SSL)
+        return self.session.send(req.prepare())
