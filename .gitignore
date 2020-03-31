@@ -21,3 +21,6 @@ coverage.xml
 *.jpeg
 *.png
 *.geojson
+
+# Pycharm
+.idea
