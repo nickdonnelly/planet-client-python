@@ -4,6 +4,7 @@
 dist
 build
 scratch
+planet-client.venv
 
 # Unit test / coverage reports
 htmlcov/
