@@ -1,4 +1,6 @@
 GH_PAGES_SOURCES = planet docs Makefile
+PYTHON_BOOTSTRAP_EXE=python3.8
+PYTHON_VENV=planet-client.venv
 
 check:
 	py.test --doctest-modules planet tests
@@ -50,3 +52,11 @@ release:
 
 release-gh: check pex docs-zip
 	TAG="$(TAG)" BODY="$(BODY)" DRAFT="$(DRAFT)" ./gh-release
+
+venv:
+	$(PYTHON_BOOTSTRAP_EXE) -m venv $(PYTHON_VENV)
+	( . $(PYTHON_VENV)/bin/activate && python -m pip install -e . )
+
+venv-dev: venv
+	( . $(PYTHON_VENV)/bin/activate && python -m pip install -e .[dev] )
+
