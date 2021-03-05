@@ -7,14 +7,18 @@ scratch
 
 # Unit test / coverage reports
 htmlcov/
-.tox/
 .coverage
 .cache
-nosetests.xml
 coverage.xml
+
+# Doc
+site/
 
 # OS X
 .DS_Store
+
+# PyEnv
+.python-version
 
 *.pyc
 *.jpg

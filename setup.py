@@ -41,6 +41,11 @@ lint_requires = [
     'flake8',
 ]
 
+doc_requires = [
+    'mkdocs',
+    'mkdocs-material',
+    'mkautodoc'
+]
 
 setup(name='planet',
       version=version,
@@ -74,8 +79,9 @@ setup(name='planet',
       ],
       extras_require={
           'test': test_requires,
-          'dev': test_requires + lint_requires,
-      },
+          'lint': lint_requires,
+          'docs': doc_requires,
+          'dev': test_requires + lint_requires + doc_requires},
       entry_points="""
       [console_scripts]
       planet=planet.scripts:main
