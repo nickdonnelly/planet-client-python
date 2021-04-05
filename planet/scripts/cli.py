@@ -19,9 +19,14 @@ import sys
 from planet import api
 from planet.api.__version__ import __version__
 from planet.api.utils import write_planet_json
-from .util import call_and_wrap
+from .util import call_and_wrap, get_claim
+from .oauth import TokenHandler
 
 client_params = {}
+
+auth_config = {'host': 'account.planet.com',
+               'auth_server_id': 'aus2enhwueFYRb50S4x7', 
+               'client_id': '0oa2scq915nekGLum4x7'}
 
 
 def clientv1():
@@ -103,3 +108,14 @@ def init(email, password):
     response = call_and_wrap(clientv1().login, email, password)
     write_planet_json({'key': response['api_key']})
     click.echo('initialized')
+
+
+@cli.command('login')
+def login():
+    '''Login using openid browser flow'''
+    handler = TokenHandler(auth_config)
+    tokens = handler.get_tokens()
+    write_planet_json({'key': tokens['access_token']})
+    click.echo('You are now logged in as [{}]'.format(
+        get_claim(tokens['access_token'], 'sub')))
+

@@ -22,6 +22,10 @@ import random
 import re
 import string
 import threading
+import base64
+import hashlib
+import requests
+
 from requests.compat import urlparse
 from ._fatomic import atomic_open
 

@@ -84,11 +84,11 @@ class RedirectSession(Session):
             redir = prepared_request.url
             if not _is_subdomain_of_tld(orig, redir):
                 prepared_request.headers.pop('Authorization')
-                key = re.match(r'api-key (\S+)', existing_auth)
+                key = re.match(r'Bearer (\S+)', existing_auth)
                 if key:
                     prepared_request.prepare_url(
                         prepared_request.url, {
-                            'api_key': key.group(1)
+                            'Bearer': key.group(1)
                         }
                     )
 
@@ -103,7 +103,7 @@ def _headers(request):
         headers['Content-Type'] = 'application/json'
     if request.auth:
         headers.update({
-            'Authorization': 'api-key %s' % request.auth.value
+            'Authorization': 'Bearer %s' % request.auth.value
         })
     else:
         raise InvalidAPIKey('No API key provided')
@@ -160,7 +160,7 @@ class RequestsDispatcher(object):
         content_type = 'application/json'
         if auth:
             headers.update({
-                'Authorization': 'api-key %s' % auth.value,
+                'Authorization': 'Bearer %s' % auth.value,
                 'Content-Type': content_type
             })
         req = Request(method, url, params=params, data=data, headers=headers)
