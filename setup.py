@@ -37,6 +37,7 @@ with open('planet/api/__version__.py') as f:
 test_requires = [
     'mock',
     'pytest',
+    'pytz',
     'requests-mock',
 ]
 
