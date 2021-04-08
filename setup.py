@@ -23,13 +23,11 @@ with open('planet/api/__version__.py') as f:
             version = version.strip("'")
             continue
 
-
-install_requires = [
-    'httpx>=0.16',
-    'tqdm>=4.56',
-]
+with open('requirements.txt') as f:
+    install_requires = f.read().splitlines()
 
 test_requires = [
+    'nox',
     'pytest',
     'pytest-asyncio',
     'pytest-cov',

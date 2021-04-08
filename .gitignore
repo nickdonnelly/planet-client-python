@@ -19,6 +19,9 @@ coverage.xml
 # OS X
 .DS_Store
 
+# IDEs and dev tools
+.idea
+
 *.pyc
 *.jpg
 *.jpeg
