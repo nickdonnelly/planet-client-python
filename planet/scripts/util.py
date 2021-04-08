@@ -17,12 +17,16 @@ from itertools import chain
 import json
 import logging
 import re
-from os import path
+from os import path, urandom
+import random
 import sys
 import tempfile
 import textwrap
 import threading
 import time
+import base64
+import hashlib
+import requests
 
 import click
 from click import termui
@@ -30,6 +34,13 @@ from click import termui
 from planet import api
 from planet.api import filters
 
+TIME_DURATION_UNITS = (
+    ('week', 60*60*24*7),
+    ('day', 60*60*24),
+    ('hour', 60*60),
+    ('min', 60),
+    ('sec', 1)
+)
 
 def _split(value):
     '''return input split on any whitespace or comma'''
@@ -354,3 +365,48 @@ def ids_from_search_response(resp):
     for feature in r['features']:
         ret.append(feature['id'])
     return ','.join(ret)
+
+
+def _b64_decode(data):
+    data += '=' * (4 - len(data) % 4)
+    return base64.b64decode(data).decode('utf-8')
+
+
+def jwt_payload_decode(jwt):
+    _, payload, _ = jwt.split('.')
+    return json.loads(_b64_decode(payload))
+
+
+def get_claim(token, claim):
+    return jwt_payload_decode(token)[claim]
+
+
+def generate_nonce(length=8):
+    """Generate pseudorandom number."""
+    return ''.join([str(random.randint(0, 9)) for i in range(length)])
+
+
+def duration_human(seconds):
+    if seconds == 0:
+        return 'inf'
+    parts = []
+    for unit, div in TIME_DURATION_UNITS:
+        amount, seconds = divmod(int(seconds), div)
+        if amount > 0:
+            parts.append('{} {}{}'.format(
+                amount, unit, "" if amount == 1 else "s"))
+    return ', '.join(parts)
+
+
+def create_verifier():
+    code_verifier = base64.urlsafe_b64encode(urandom(40)).decode('utf-8')
+    code_verifier = re.sub('[^a-zA-Z0-9]+', '', code_verifier)
+    return code_verifier
+
+
+def create_challenge(v):
+    code_challenge = hashlib.sha256(v.encode('utf-8')).digest()
+    code_challenge = base64.urlsafe_b64encode(code_challenge).decode('utf-8')
+    code_challenge = code_challenge.replace('=', '')
+    return code_challenge
+
