@@ -2,8 +2,8 @@
 ## Docker pattern targets. These pattern targets are Dockerfile and Planet python client agnostic
 ##
 ##     "make docker-build-<stage>" to build a stage locally.
-##     "make docker-run-<stage>" to run a stage locally/
-##     "make docker-publish-<stage>" to push a stage a docker repository
+##     "make docker-run-<stage>" to run a stage locally.
+##     "make docker-publish-<stage>" to push a stage a docker repository.
 ##
 ## Options and arguments can be tailored for running each stage in the Dockerfile
 ## from make by setting the following in your makefile:
