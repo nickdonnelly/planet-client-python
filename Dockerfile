@@ -21,16 +21,13 @@ WORKDIR /build
 
 COPY requirements.txt ./requirements.txt
 RUN python -m pip install  -r requirements.txt
-#COPY setup.cfg .
-#COPY setup.py .
-#RUN python -m pip install -e .[dev]
 
 #######################################
 ## Builder-2
 #######################################
 # Build just the CLI runtime for packaging up in a lean executable docker.
 # The docker image is not built as distribution of the SDK for development
-# at this time
+# at this time.
 FROM builder-1 as builder-2
 ENV VIRTUAL_ENV=/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
