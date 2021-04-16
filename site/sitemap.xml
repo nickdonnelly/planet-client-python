@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
+     <loc>https://planetlabs.github.io/planet-client-python/</loc>
+     <lastmod>2021-04-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://planetlabs.github.io/planet-client-python/guide/</loc>
+     <lastmod>2021-04-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://planetlabs.github.io/planet-client-python/upgrading/</loc>
+     <lastmod>2021-04-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url><url>
+     <loc>https://planetlabs.github.io/planet-client-python/api/</loc>
+     <lastmod>2021-04-16</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+</urlset>
