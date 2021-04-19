@@ -114,8 +114,15 @@ def init(email, password):
 def login():
     '''Login using openid browser flow'''
     handler = TokenHandler(auth_config)
-    tokens = handler.get_tokens()
-    write_planet_json({'key': tokens['access_token']})
-    click.echo('You are now logged in as [{}]'.format(
-        get_claim(tokens['access_token'], 'sub')))
+    try:
+        tokens = handler.get_tokens()
+        if tokens:
+            write_planet_json({'key': tokens['access_token']})
+            click.echo('You are now logged in as [{}]'.format(
+                get_claim(tokens['access_token'], 'sub')))
+        else:
+            click.echo('Planet login failed')
+    except Exception as e:
+        click.echo('Planet login failed : {}'.format(str(e)))
+
 
